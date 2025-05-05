@@ -1,0 +1,12 @@
+#include <stdio.h>
+/*
+* description : prints
+*
+* Return : Return 0 as success
+*/
+int main(void)
+{
+printf("_putchar");
+printf("\n");
+return (0);
+}
