@@ -1,9 +1,15 @@
-#include <stdio.h>
+#include "main.h"
+
 /**
-* print_alphabet - prints alphabets in lowercase with a new line
-*/
+ * print_alphabet - prints the alphabet in lowercase, followed by a new line
+ */
 void print_alphabet(void)
 {
-char alphabet[27] = "abcdefghijklmnopqrstuvwxyz\n";
-_putchar(alphabet);
+    char alphabet[] = "abcdefghijklmnopqrstuvwxyz\n";
+    int i;
+
+    for (i = 0; alphabet[i] != '\0'; i++)
+    {
+        _putchar(alphabet[i]);
+    }
 }
