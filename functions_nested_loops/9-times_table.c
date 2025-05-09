@@ -15,13 +15,21 @@ for (j = 0; j <= 9; j++)
 product = i * j;
 
 if (j != 0)
-printf(", ");
+{
+_putchar(',');
+_putchar(' ');
+}
 
 if (product < 10 && j != 0)
-printf(" ");
+_putchar(' ');
 
-printf("%d", product);
+if (product >= 10)
+{
+_putchar((product / 10) + '0');
 }
-printf("$\n");
+_putchar((product % 10) + '0');
+}
+_putchar('$');
+_putchar('\n');
 }
 }
