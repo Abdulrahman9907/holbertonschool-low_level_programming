@@ -1,0 +1,21 @@
+#include "main.h"
+
+/**
+ * main - check the code
+ *
+ * Return: Always 0.
+ */
+int main(void)
+{
+    times_table();
+    return (0);
+}
+#ifndef MAIN_H
+#define MAIN_H
+
+int _putchar(char c);
+int print_sign(int n);
+int _abs(int n);
+int print_last_digit(int);
+
+#endif /* MAIN_H */
