@@ -11,9 +11,7 @@ for (hour = 0; hour < 24; hour++)
 {
 for (minute = 0; minute < 60; minute++)
 {
-char buffer[6];
-snprintf(buffer, sizeof(buffer), "%02d:%02d\n", hour, minute);
-write(1, buffer, 6);
+printf("%02d:%02d\n", hour, minute);
 }
 }
 }
