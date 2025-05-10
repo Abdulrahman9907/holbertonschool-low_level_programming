@@ -2,7 +2,8 @@
 
 /**
  * swap_int - swap values while using a temp.
- * @n: Pointer to an integer.
+ * @a: Pointer to integer a.
+ * @b: Pointer to integer b
  */
 void swap_int(int *a, int *b)
 {
