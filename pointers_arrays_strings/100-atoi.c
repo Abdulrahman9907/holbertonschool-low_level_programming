@@ -1,5 +1,5 @@
 #include "main.h"
-#include <limits.h> // For INT_MAX and INT_MIN
+#include <limits.h> /* For INT_MAX and INT_MIN */
 
 /**
  * _atoi - Converts a string to an integer.
@@ -21,7 +21,7 @@ else if (*s >= '0' && *s <= '9')
 {
 started = 1;
 
-// Check for overflow before updating result
+/* Check for overflow before updating result */
 if (result > (INT_MAX - (*s - '0')) / 10)
 {
 return (sign == 1 ? INT_MAX : INT_MIN);
