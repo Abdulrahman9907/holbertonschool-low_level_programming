@@ -16,12 +16,14 @@ while (str[i] != '\0')
 {
 int j = 0;
 
+// Capitalize the current character if needed
 if (capitalize_next && str[i] >= 'a' && str[i] <= 'z')
 {
 str[i] -= 32;
-capitalize_next = 0;
 }
 
+// Check if the current character is a separator
+capitalize_next = 0;
 while (separators[j] != '\0')
 {
 if (str[i] == separators[j])
@@ -31,9 +33,6 @@ break;
 }
 j++;
 }
-
-if (!capitalize_next && !(str[i] >= 'a' && str[i] <= 'z'))
-capitalize_next = 0;
 
 i++;
 }
