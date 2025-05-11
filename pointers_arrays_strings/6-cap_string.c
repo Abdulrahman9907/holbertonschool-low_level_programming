@@ -1,35 +1,40 @@
 #include "main.h"
-#include <ctype.h>
 
 /**
- * cap_string - Capitalizes all words of a string.
- * @str: The string to be modified.
+ * cap_string - capitalizes all words of a string
+ * @str: pointer to string
  *
- * Return: A pointer to the modified string.
+ * Return: pointer to string
  */
 char *cap_string(char *str)
 {
 int i = 0;
+int capitalize_next = 1;
 
-// Check if the first character is a lowercase letter
-if (islower(str[i]))
-str[i] = toupper(str[i]);
-
-// Traverse the string
 while (str[i] != '\0')
 {
-// Check for word separators
+/* Check if current character is a separator */
 if (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' ||
 str[i] == ',' || str[i] == ';' || str[i] == '.' ||
 str[i] == '!' || str[i] == '?' || str[i] == '"' ||
-str[i] == '(' || str[i] == ')' || str[i] == '{' || str[i] == '}')
+str[i] == '(' || str[i] == ')' || str[i] == '{' ||
+str[i] == '}')
 {
-// Capitalize the next character if it's a lowercase letter
-if (islower(str[i + 1]))
-str[i + 1] = toupper(str[i + 1]);
+capitalize_next = 1;
+}
+else if (capitalize_next && str[i] >= 'a' && str[i] <= 'z')
+{
+/* Capitalize if it's a lowercase letter after a separator */
+str[i] = str[i] - 32;
+capitalize_next = 0;
+}
+else
+{
+/* Not a separator and not the start of a new word */
+capitalize_next = 0;
 }
 i++;
 }
 
-return str;
+return (str);
 }
