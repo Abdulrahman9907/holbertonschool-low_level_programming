@@ -3,7 +3,7 @@
 /**
  * main - Entry point
  *
- * Description: Prints numbers from 1 to 100 
+ * Description: Prints numbers from 1 to 100
  * substitutions for multiples of 3, 5,
  *
  * Return: Always 0 (Success)
