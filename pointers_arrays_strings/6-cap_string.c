@@ -1,4 +1,5 @@
 #include "main.h"
+#include <ctype.h>
 
 /**
  * cap_string - Capitalizes all words of a string.
@@ -9,33 +10,26 @@
 char *cap_string(char *str)
 {
 int i = 0;
-int capitalize_next = 1;
-char separators[] = " \t\n,;.!?\"(){}";
 
+// Check if the first character is a lowercase letter
+if (islower(str[i]))
+str[i] = toupper(str[i]);
+
+// Traverse the string
 while (str[i] != '\0')
 {
-int j = 0;
-
-// Capitalize the current character if needed
-if (capitalize_next && str[i] >= 'a' && str[i] <= 'z')
+// Check for word separators
+if (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' ||
+str[i] == ',' || str[i] == ';' || str[i] == '.' ||
+str[i] == '!' || str[i] == '?' || str[i] == '"' ||
+str[i] == '(' || str[i] == ')' || str[i] == '{' || str[i] == '}')
 {
-str[i] -= 32;
+// Capitalize the next character if it's a lowercase letter
+if (islower(str[i + 1]))
+str[i + 1] = toupper(str[i + 1]);
 }
-
-// Check if the current character is a separator
-capitalize_next = 0;
-while (separators[j] != '\0')
-{
-if (str[i] == separators[j])
-{
-capitalize_next = 1;
-break;
-}
-j++;
-}
-
 i++;
 }
 
-return (str);
+return str;
 }
