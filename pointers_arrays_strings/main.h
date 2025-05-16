@@ -17,5 +17,6 @@ void reverse_array(int *a, int n);
 char *string_toupper(char *);
 char *cap_string(char *);
 char *_memset(char *s, char b, unsigned int n);
+char *_strchr(char *s, char c);
 
 #endif /* MAIN_H */
