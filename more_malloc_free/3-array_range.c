@@ -3,7 +3,7 @@
 
 /**
 * array_range - creates an array of integers
-* @min: minimum value (included)
+* @min: minivmum value (included)
 * @max: maximum value (included)
 *
 * Return: pointer to the newly created array, or NULL on failure
@@ -18,7 +18,7 @@ return (NULL);
 
 size = max - min + 1;
 
-array = malloc(size * sizeof(int));
+array = malloc(size *sizeof(int));
 if (array == NULL)
 return (NULL);
 
