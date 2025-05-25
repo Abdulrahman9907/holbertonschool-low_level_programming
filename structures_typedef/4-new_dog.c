@@ -28,7 +28,8 @@ if (name_copy == NULL)
 free(new_dog);
 return (NULL);
 }
-strcpy(name_copy, name);
+for (size_t i = 0; i <= strlen(name); i++)
+name_copy[i] = name[i];
 
 owner_copy = malloc(strlen(owner) + 1);
 if (owner_copy == NULL)
@@ -37,7 +38,8 @@ free(name_copy);
 free(new_dog);
 return (NULL);
 }
-strcpy(owner_copy, owner);
+for (size_t i = 0; i <= strlen(owner); i++)
+owner_copy[i] = owner[i];
 
 new_dog->name = name_copy;
 new_dog->age = age;
