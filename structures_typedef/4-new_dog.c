@@ -1,6 +1,21 @@
 #include "dog.h"
 #include <stdlib.h>
-#include <string.h>
+
+/**
+* _strlen - calculates the length of a string
+* @str: the string
+*
+* Return: the length of the string
+*/
+size_t _strlen(const char *str)
+{
+size_t len = 0;
+
+while (str[len] != '\0')
+len++;
+
+return (len);
+}
 
 /**
 * new_dog - creates a new dog
@@ -23,23 +38,23 @@ new_dog = malloc(sizeof(dog_t));
 if (new_dog == NULL)
 return (NULL);
 
-name_copy = malloc(strlen(name) + 1);
+name_copy = malloc(_strlen(name) + 1);
 if (name_copy == NULL)
 {
 free(new_dog);
 return (NULL);
 }
-for (i = 0; i <= strlen(name); i++) /* Use the declared variable */
+for (i = 0; i <= _strlen(name); i++) /* Use the declared variable */
 name_copy[i] = name[i];
 
-owner_copy = malloc(strlen(owner) + 1);
+owner_copy = malloc(_strlen(owner) + 1);
 if (owner_copy == NULL)
 {
 free(name_copy);
 free(new_dog);
 return (NULL);
 }
-for (i = 0; i <= strlen(owner); i++) /* Reuse the same variable */
+for (i = 0; i <= _strlen(owner); i++) /* Reuse the same variable */
 owner_copy[i] = owner[i];
 
 new_dog->name = name_copy;
