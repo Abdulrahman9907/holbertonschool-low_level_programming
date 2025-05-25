@@ -14,6 +14,7 @@ dog_t *new_dog(char *name, float age, char *owner)
 {
 dog_t *new_dog;
 char *name_copy, *owner_copy;
+size_t i; // Declare the loop variable outside the loops
 
 if (name == NULL || owner == NULL)
 return (NULL);
@@ -28,7 +29,7 @@ if (name_copy == NULL)
 free(new_dog);
 return (NULL);
 }
-for (size_t i = 0; i <= strlen(name); i++)
+for (i = 0; i <= strlen(name); i++) // Use the declared variable
 name_copy[i] = name[i];
 
 owner_copy = malloc(strlen(owner) + 1);
@@ -38,7 +39,7 @@ free(name_copy);
 free(new_dog);
 return (NULL);
 }
-for (size_t i = 0; i <= strlen(owner); i++)
+for (i = 0; i <= strlen(owner); i++) // Reuse the same variable
 owner_copy[i] = owner[i];
 
 new_dog->name = name_copy;
