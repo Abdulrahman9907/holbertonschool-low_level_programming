@@ -1,4 +1,5 @@
 #include "function_pointers.h"
+#include <stddef.h> // Include this header to define NULL
 
 /**
 * print_name - prints a name using a function pointer
