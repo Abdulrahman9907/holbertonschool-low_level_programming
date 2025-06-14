@@ -22,7 +22,9 @@ return (NULL);
 
 new_node = create_new_node(n);
 if (!new_node)
+{
 return (NULL);
+}
 
 if (idx == 0)
 return insert_at_head(h, new_node);
