@@ -1,7 +1,8 @@
 #include "lists.h"
 
 /**
-* dlistint_len - Returns the number of elements in a doubly linked dlistint_t list.
+* dlistint_len - Returns the number of elements in a
+* doubly linked dlistint_t list.
 * @h: Pointer to the head of the list.
 *
 * Return: Number of elements in the list.
