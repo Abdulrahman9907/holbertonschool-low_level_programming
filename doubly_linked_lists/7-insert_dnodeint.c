@@ -1,6 +1,12 @@
 #include "lists.h"
 #include <stdlib.h>
 
+/* Function prototypes for helper functions */
+dlistint_t *create_new_node(int n);
+dlistint_t *insert_at_head(dlistint_t **h, dlistint_t *new_node);
+dlistint_t *insert_at_index(dlistint_t **h, unsigned int idx,
+dlistint_t *new_node);
+
 /**
 * insert_dnodeint_at_index - Inserts a new node at a given position.
 * @h: Pointer to the head of the doubly linked list.
