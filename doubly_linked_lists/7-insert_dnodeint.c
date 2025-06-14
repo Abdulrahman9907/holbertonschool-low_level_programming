@@ -57,7 +57,8 @@ if (*h)
 return (new_node);
 }
 
-dlistint_t *insert_at_index(dlistint_t **h, unsigned int idx, dlistint_t *new_node)
+dlistint_t *insert_at_index(dlistint_t **h, unsigned int idx,
+dlistint_t *new_node)
 {
 dlistint_t *current = *h;
 unsigned int i = 0;
