@@ -9,11 +9,6 @@
 *
 * Return: Address of the new node, or NULL if it failed.
 */
-dlistint_t *create_new_node(int n);
-dlistint_t *insert_at_head(dlistint_t **h, dlistint_t *new_node);
-dlistint_t *insert_at_index(dlistint_t **h, unsigned int idx,
-dlistint_t *new_node);
-
 dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 {
 dlistint_t *new_node;
@@ -33,6 +28,12 @@ return (insert_at_head(h, new_node));
 return (insert_at_index(h, idx, new_node));
 }
 
+/**
+* create_new_node - Creates a new doubly linked list node
+* @n: Data to be added in the new node
+*
+* Return: Address of the new node, or NULL if it failed
+*/
 dlistint_t *create_new_node(int n)
 {
 dlistint_t *new_node = malloc(sizeof(dlistint_t));
@@ -46,6 +47,13 @@ new_node->next = NULL;
 return (new_node);
 }
 
+/**
+* insert_at_head - Inserts a node at the beginning of the list
+* @h: Pointer to the head of the doubly linked list
+* @new_node: Pointer to the new node to insert
+*
+* Return: Address of the new node, or NULL if it failed
+*/
 dlistint_t *insert_at_head(dlistint_t **h, dlistint_t *new_node)
 {
 new_node->prev = NULL;
@@ -57,6 +65,14 @@ if (*h)
 return (new_node);
 }
 
+/**
+* insert_at_index - Inserts a node at the specified index
+* @h: Pointer to the head of the doubly linked list
+* @idx: Index where the new node should be added
+* @new_node: Pointer to the new node to insert
+*
+* Return: Address of the new node, or NULL if it failed
+*/
 dlistint_t *insert_at_index(dlistint_t **h, unsigned int idx,
 dlistint_t *new_node)
 {
