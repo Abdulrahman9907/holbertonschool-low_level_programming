@@ -28,19 +28,21 @@ return (len);
 */
 void error_exit(int code, char *arg)
 {
-if (arg && *arg)
+if (code == 97)
+{
+write(STDERR_FILENO, "Usage: cp file_from file_to\n", 28);
+}
+else
 {
 write(STDERR_FILENO, "Error: Can't ", 13);
 if (code == 98)
 write(STDERR_FILENO, "read from file ", 15);
 else if (code == 99)
 write(STDERR_FILENO, "write to ", 9);
+
+if (arg)
 write(STDERR_FILENO, arg, _strlen(arg));
 write(STDERR_FILENO, "\n", 1);
-}
-else
-{
-write(STDERR_FILENO, "Usage: cp file_from file_to\n", 28);
 }
 exit(code);
 }
