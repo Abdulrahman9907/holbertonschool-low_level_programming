@@ -1,38 +1,71 @@
+#define _GNU_SOURCE
 #include "main.h"
+#include <stdio.h>     /* Added this include for dprintf */
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 /**
-* append_text_to_file - appends text at the end of a file
-* @filename: name of the file
-* @text_content: NULL terminated string to add at the end of the file
-*
-* Return: 1 on success, -1 on failure
+* main - copies the content of a file to another file
+* @argc: number of arguments
+* @argv: array of arguments
+* Return: 0 on success, exit codes on failure
 */
-int append_text_to_file(const char *filename, char *text_content)
+int main(int argc, char *argv[])
 {
-int fd, bytes_written, len;
+int fd_from, fd_to, r, w;
+char buffer[1024];
 
-if (filename == NULL)
-return (-1);
-
-fd = open(filename, O_WRONLY | O_APPEND);
-if (fd == -1)
-return (-1);
-
-if (text_content == NULL)
+if (argc != 3)
 {
-close(fd);
-return (1);
+dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
+exit(97);
 }
 
-len = 0;
-while (text_content[len])
-len++;
+fd_from = open(argv[1], O_RDONLY);
+if (fd_from == -1)
+{
+dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+exit(98);
+}
 
-bytes_written = write(fd, text_content, len);
-close(fd);
+fd_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+if (fd_to == -1)
+{
+dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+exit(99);
+}
 
-if (bytes_written == -1)
-return (-1);
+do {
+r = read(fd_from, buffer, 1024);
+if (r == -1)
+{
+dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+exit(98);
+}
+if (r > 0)
+{
+w = write(fd_to, buffer, r);
+if (w == -1)
+{
+dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+exit(99);
+}
+}
+} while (r > 0);
 
-return (1);
+if (close(fd_from) == -1)
+{
+dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_from);
+exit(100);
+}
+if (close(fd_to) == -1)
+{
+dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_to);
+exit(100);
+}
+
+return (0);
 }
