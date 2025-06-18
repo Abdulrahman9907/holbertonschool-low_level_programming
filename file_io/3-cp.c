@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #define BUFFER_SIZE 1024
 
@@ -14,7 +15,10 @@
 */
 void error_exit(int code, char *message, char *arg)
 {
-dprintf(STDERR_FILENO, message, arg);
+if (arg && *arg)
+fprintf(stderr, message, arg);
+else
+fprintf(stderr, "%s", message);
 exit(code);
 }
 
@@ -25,7 +29,10 @@ exit(code);
 void close_fd(int fd)
 {
 if (close(fd) == -1)
-error_exit(100, "Error: Can't close fd %d\n", (char *)(long)fd);
+{
+fprintf(stderr, "Error: Can't close fd %d\n", fd);
+exit(100);
+}
 }
 
 /**
