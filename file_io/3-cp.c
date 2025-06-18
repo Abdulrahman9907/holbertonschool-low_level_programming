@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include "main.h"
 #include <fcntl.h>
 #include <unistd.h>
