@@ -24,10 +24,9 @@ return (len);
 /**
 * error_exit - Print error message and exit with given code
 * @code: Exit code
-* @message: Error message format
 * @arg: Argument for message
 */
-void error_exit(int code, char *message, char *arg)
+void error_exit(int code, char *arg)
 {
 if (arg && *arg)
 {
@@ -41,10 +40,7 @@ write(STDERR_FILENO, "\n", 1);
 }
 else
 {
-write(STDERR_FILENO, "Error: Can't ", 13);
-if (code == 97)
-write(STDERR_FILENO, "Usage: cp file_from file_to", 27);
-write(STDERR_FILENO, "\n", 1);
+write(STDERR_FILENO, "Usage: cp file_from file_to\n", 28);
 }
 exit(code);
 }
@@ -82,17 +78,17 @@ int fd_from, fd_to, bytes_read, bytes_written;
 char buffer[BUFFER_SIZE];
 
 if (argc != 3)
-error_exit(97, NULL, NULL);
+error_exit(97, NULL);
 
 fd_from = open(argv[1], O_RDONLY);
 if (fd_from == -1)
-error_exit(98, NULL, argv[1]);
+error_exit(98, argv[1]);
 
 fd_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 if (fd_to == -1)
 {
 close_fd(fd_from);
-error_exit(99, NULL, argv[2]);
+error_exit(99, argv[2]);
 }
 
 while ((bytes_read = read(fd_from, buffer, BUFFER_SIZE)) > 0)
@@ -102,7 +98,7 @@ if (bytes_written != bytes_read)
 {
 close_fd(fd_from);
 close_fd(fd_to);
-error_exit(99, NULL, argv[2]);
+error_exit(99, argv[2]);
 }
 }
 
@@ -110,7 +106,7 @@ if (bytes_read == -1)
 {
 close_fd(fd_from);
 close_fd(fd_to);
-error_exit(98, NULL, argv[1]);
+error_exit(98, argv[1]);
 }
 
 close_fd(fd_from);
