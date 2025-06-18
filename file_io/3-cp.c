@@ -40,7 +40,12 @@ write(STDERR_FILENO, arg, _strlen(arg));
 write(STDERR_FILENO, "\n", 1);
 }
 else
-write(STDERR_FILENO, message, _strlen(message));
+{
+write(STDERR_FILENO, "Error: Can't ", 13);
+if (code == 97)
+write(STDERR_FILENO, "Usage: cp file_from file_to", 27);
+write(STDERR_FILENO, "\n", 1);
+}
 exit(code);
 }
 
@@ -77,17 +82,17 @@ int fd_from, fd_to, bytes_read, bytes_written;
 char buffer[BUFFER_SIZE];
 
 if (argc != 3)
-error_exit(97, "Usage: cp file_from file_to\n", "");
+error_exit(97, NULL, NULL);
 
 fd_from = open(argv[1], O_RDONLY);
 if (fd_from == -1)
-error_exit(98, "Error: Can't read from file %s\n", argv[1]);
+error_exit(98, NULL, argv[1]);
 
 fd_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 if (fd_to == -1)
 {
 close_fd(fd_from);
-error_exit(99, "Error: Can't write to %s\n", argv[2]);
+error_exit(99, NULL, argv[2]);
 }
 
 while ((bytes_read = read(fd_from, buffer, BUFFER_SIZE)) > 0)
@@ -97,7 +102,7 @@ if (bytes_written != bytes_read)
 {
 close_fd(fd_from);
 close_fd(fd_to);
-error_exit(99, "Error: Can't write to %s\n", argv[2]);
+error_exit(99, NULL, argv[2]);
 }
 }
 
@@ -105,7 +110,7 @@ if (bytes_read == -1)
 {
 close_fd(fd_from);
 close_fd(fd_to);
-error_exit(98, "Error: Can't read from file %s\n", argv[1]);
+error_exit(98, NULL, argv[1]);
 }
 
 close_fd(fd_from);
