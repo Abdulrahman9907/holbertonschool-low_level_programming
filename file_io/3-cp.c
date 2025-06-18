@@ -96,6 +96,12 @@ error_exit(99, argv[2]);
 while ((bytes_read = read(fd_from, buffer, BUFFER_SIZE)) > 0)
 {
 bytes_written = write(fd_to, buffer, bytes_read);
+if (bytes_written == -1)
+{
+close_fd(fd_from);
+close_fd(fd_to);
+error_exit(99, argv[2]);
+}
 if (bytes_written != bytes_read)
 {
 close_fd(fd_from);
