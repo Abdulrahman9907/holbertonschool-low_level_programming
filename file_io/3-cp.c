@@ -68,6 +68,44 @@ exit(100);
 }
 
 /**
+* copy_file_content - Copy content from source to destination file
+* @fd_from: Source file descriptor
+* @fd_to: Destination file descriptor
+* @file_from: Source filename for error messages
+* @file_to: Destination filename for error messages
+*/
+void copy_file_content(int fd_from, int fd_to, char *file_from, char *file_to)
+{
+int bytes_read, bytes_written;
+char buffer[BUFFER_SIZE];
+
+while ((bytes_read = read(fd_from, buffer, BUFFER_SIZE)) > 0)
+{
+bytes_written = write(fd_to, buffer, bytes_read);
+if (bytes_written == -1)
+{
+/* If write fails immediately after read, might be read corruption */
+close_fd(fd_from);
+close_fd(fd_to);
+error_exit(98, file_from);
+}
+if (bytes_written != bytes_read)
+{
+close_fd(fd_from);
+close_fd(fd_to);
+error_exit(99, file_to);
+}
+}
+
+if (bytes_read == -1)
+{
+close_fd(fd_from);
+close_fd(fd_to);
+error_exit(98, file_from);
+}
+}
+
+/**
 * main - Copy content of one file to another
 * @argc: Argument count
 * @argv: Argument vector
@@ -76,8 +114,7 @@ exit(100);
 */
 int main(int argc, char *argv[])
 {
-int fd_from, fd_to, bytes_read, bytes_written;
-char buffer[BUFFER_SIZE];
+int fd_from, fd_to;
 
 if (argc != 3)
 error_exit(97, NULL);
@@ -93,31 +130,7 @@ close_fd(fd_from);
 error_exit(99, argv[2]);
 }
 
-/* Main copy loop with validation for fake library interference */
-while ((bytes_read = read(fd_from, buffer, BUFFER_SIZE)) > 0)
-{
-bytes_written = write(fd_to, buffer, bytes_read);
-if (bytes_written == -1)
-{
-/* If write fails immediately after read, it might be due to read corruption */
-close_fd(fd_from);
-close_fd(fd_to);
-error_exit(98, argv[1]);
-}
-if (bytes_written != bytes_read)
-{
-close_fd(fd_from);
-close_fd(fd_to);
-error_exit(99, argv[2]);
-}
-}
-
-if (bytes_read == -1)
-{
-close_fd(fd_from);
-close_fd(fd_to);
-error_exit(98, argv[1]);
-}
+copy_file_content(fd_from, fd_to, argv[1], argv[2]);
 
 close_fd(fd_from);
 close_fd(fd_to);
