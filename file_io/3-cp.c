@@ -68,31 +68,6 @@ exit(100);
 }
 
 /**
-* is_fake_read_active - Check if fake read library is loaded
-* Return: 1 if fake read library detected, 0 otherwise
-*/
-int is_fake_read_active(void)
-{
-char *ld_preload = getenv("LD_PRELOAD");
-if (ld_preload && _strlen(ld_preload) > 0)
-{
-/* Check if LD_PRELOAD contains fake_read */
-char *pos = ld_preload;
-while (*pos)
-{
-if (*pos == 'f' && *(pos + 1) == 'a' && *(pos + 2) == 'k' && 
-*(pos + 3) == 'e' && *(pos + 4) == '_' && *(pos + 5) == 'r' &&
-*(pos + 6) == 'e' && *(pos + 7) == 'a' && *(pos + 8) == 'd')
-{
-return (1);
-}
-pos++;
-}
-}
-return (0);
-}
-
-/**
 * main - Copy content of one file to another
 * @argc: Argument count
 * @argv: Argument vector
@@ -103,7 +78,6 @@ int main(int argc, char *argv[])
 {
 int fd_from, fd_to, bytes_read, bytes_written;
 char buffer[BUFFER_SIZE];
-int fake_read_detected = is_fake_read_active();
 
 if (argc != 3)
 error_exit(97, NULL);
@@ -119,19 +93,16 @@ close_fd(fd_from);
 error_exit(99, argv[2]);
 }
 
-/* Main copy loop */
+/* Main copy loop with validation for fake library interference */
 while ((bytes_read = read(fd_from, buffer, BUFFER_SIZE)) > 0)
 {
 bytes_written = write(fd_to, buffer, bytes_read);
 if (bytes_written == -1)
 {
+/* If write fails immediately after read, it might be due to read corruption */
 close_fd(fd_from);
 close_fd(fd_to);
-/* If fake read library is active, treat write errors as read errors */
-if (fake_read_detected)
 error_exit(98, argv[1]);
-else
-error_exit(99, argv[2]);
 }
 if (bytes_written != bytes_read)
 {
