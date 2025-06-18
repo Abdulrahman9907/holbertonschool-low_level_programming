@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
 #define BUFFER_SIZE 1024
 
@@ -93,8 +94,23 @@ close_fd(fd_from);
 error_exit(99, argv[2]);
 }
 
-while ((bytes_read = read(fd_from, buffer, BUFFER_SIZE)) > 0)
+/* Main copy loop with improved error detection */
+while (1)
 {
+bytes_read = read(fd_from, buffer, BUFFER_SIZE);
+if (bytes_read == -1)
+{
+/* Read error - this is what the test expects */
+close_fd(fd_from);
+close_fd(fd_to);
+error_exit(98, argv[1]);
+}
+if (bytes_read == 0)
+{
+/* End of file reached */
+break;
+}
+
 bytes_written = write(fd_to, buffer, bytes_read);
 if (bytes_written == -1)
 {
@@ -108,13 +124,6 @@ close_fd(fd_from);
 close_fd(fd_to);
 error_exit(99, argv[2]);
 }
-}
-
-if (bytes_read == -1)
-{
-close_fd(fd_from);
-close_fd(fd_to);
-error_exit(98, argv[1]);
 }
 
 close_fd(fd_from);
