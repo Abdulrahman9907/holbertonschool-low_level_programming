@@ -4,8 +4,22 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #define BUFFER_SIZE 1024
+
+/**
+* _strlen - Calculate length of string
+* @s: String to measure
+* Return: Length of string
+*/
+int _strlen(char *s)
+{
+int len = 0;
+while (s[len])
+len++;
+return (len);
+}
 
 /**
 * error_exit - Print error message and exit with given code
@@ -16,9 +30,17 @@
 void error_exit(int code, char *message, char *arg)
 {
 if (arg && *arg)
-fprintf(stderr, message, arg);
+{
+write(STDERR_FILENO, "Error: Can't ", 13);
+if (code == 98)
+write(STDERR_FILENO, "read from file ", 15);
+else if (code == 99)
+write(STDERR_FILENO, "write to ", 9);
+write(STDERR_FILENO, arg, _strlen(arg));
+write(STDERR_FILENO, "\n", 1);
+}
 else
-fprintf(stderr, "%s", message);
+write(STDERR_FILENO, message, _strlen(message));
 exit(code);
 }
 
@@ -30,7 +52,14 @@ void close_fd(int fd)
 {
 if (close(fd) == -1)
 {
-fprintf(stderr, "Error: Can't close fd %d\n", fd);
+write(STDERR_FILENO, "Error: Can't close fd ", 22);
+/* Convert fd to string and write */
+if (fd >= 0 && fd <= 9)
+{
+char c = fd + '0';
+write(STDERR_FILENO, &c, 1);
+}
+write(STDERR_FILENO, "\n", 1);
 exit(100);
 }
 }
